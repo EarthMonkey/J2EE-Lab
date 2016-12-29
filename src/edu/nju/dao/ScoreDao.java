@@ -8,6 +8,6 @@ public interface ScoreDao {
 	
 	public void createData();
 
-	public ArrayList<ScoresPO> find(String id);
+	public ArrayList<ScoresPO> find(int id);
 	
 }
