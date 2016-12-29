@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>CheckTest</title>
+<title>Login</title>
 
 <style>
 div {
@@ -24,7 +24,7 @@ div {
 	%>
 
 	<div>
-		<form method='post' action='/J2EE-Lab/CheckTest'>
+		<form method='post' action='/J2EE-Lab/Login'>
 			<input type='text' name='id' placeholder='请输入学号'> <input
 				type='submit' value='登录'>
 		</form>
@@ -38,8 +38,6 @@ div {
 		<div>
 			游客人数：<%=visitorCount%></div>
 	</div>
-
-
 
 </body>
 </html>

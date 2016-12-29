@@ -11,7 +11,7 @@ import edu.nju.models.ScoresPO;
 
 public interface CheckScoreService {
 
-	public ArrayList<ScoresPO> getScore(int id);
+	public ArrayList<ScoresPO> checkScore(int id);
 
 	public void forwardPage(String page, HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException;

@@ -3,6 +3,7 @@ package edu.nju.service.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +22,7 @@ public class CheckScoreServiceImpl implements CheckScoreService {
 	
 	
 	@Override
-	public ArrayList<ScoresPO> getScore(int id) {
+	public ArrayList<ScoresPO> checkScore(int id) {
 		return DaoFactory.getScoreDao().find(id);
 	}
 
@@ -29,7 +30,8 @@ public class CheckScoreServiceImpl implements CheckScoreService {
 	public void forwardPage(String page, HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		RequestDispatcher dispatcher = req.getRequestDispatcher(resp.encodeURL(page));
+		dispatcher.forward(req, resp);
 	}
 
 }

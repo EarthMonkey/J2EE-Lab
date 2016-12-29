@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import edu.nju.dao.DaoHelper;
 import edu.nju.dao.ScoreDao;
-import edu.nju.database.DBConnection;
 import edu.nju.models.ScoresPO;
 
 public class ScoreDaoImpl implements ScoreDao {
@@ -53,7 +52,7 @@ public class ScoreDaoImpl implements ScoreDao {
 	public ArrayList<ScoresPO> find(int id) {
 
 		ArrayList<ScoresPO> scoreslist = new ArrayList<>();
-		Connection con = DBConnection.getConnection();
+		Connection con = daoHelper.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 

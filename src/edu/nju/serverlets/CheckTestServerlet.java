@@ -1,7 +1,6 @@
 package edu.nju.serverlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,14 +11,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import edu.nju.database.DBScoresTable;
+import edu.nju.action.business.ScoreListBean;
+import edu.nju.factory.ServiceFactory;
 import edu.nju.models.ScoresPO;
 
 /**
  * Servlet implementation class CheckTest
  */
-@WebServlet("/CheckTest")
+@WebServlet("/Login")
 public class CheckTestServerlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -48,7 +49,7 @@ public class CheckTestServerlet extends HttpServlet {
 		visitorCount++;
 		Context.setAttribute("visitorCount", visitorCount);
 
-		response.sendRedirect("/J2EE-Lab/Pages/CheckTest.jsp");
+		response.sendRedirect("/J2EE-Lab/Pages/Login.jsp");
 
 	}
 
@@ -65,13 +66,13 @@ public class CheckTestServerlet extends HttpServlet {
 		String userId = request.getParameter("id");
 
 		if (userId.equals("")) {
-			response.sendRedirect("/J2EE-Lab/Pages/CheckTest.jsp");
+			response.sendRedirect("/J2EE-Lab/Pages/Login.jsp");
 		} else {
 			Pattern pattern = Pattern.compile("[0-9]*");
 			Matcher isNum = pattern.matcher(userId);
 
 			if (isNum.matches()) {
-				ArrayList<ScoresPO> scorelist = DBScoresTable.checkScore(Integer.parseInt(userId));
+				ArrayList<ScoresPO> scorelist = ServiceFactory.getScoreService().checkScore(Integer.parseInt(userId));
 
 				if (scorelist.isEmpty()) {
 					response.sendError(HttpServletResponse.SC_NOT_FOUND, "该学号不存在");
@@ -85,32 +86,28 @@ public class CheckTestServerlet extends HttpServlet {
 						visitorCount--;
 					Context.setAttribute("onlineCount", onlineCount);
 					Context.setAttribute("visitorCount", visitorCount);
-
+					
+					request.getSession().setAttribute("user", userId);
+					
+					ArrayList<ScoresPO> score = new ArrayList<>();
 					ArrayList<ScoresPO> absent = new ArrayList<>();
 
-					PrintWriter out = response.getWriter();
 					for (ScoresPO sp : scorelist) {
 						if (sp.getScore() > 0) {
-							out.print(sp.getCourse() + "&nbsp;得分：");
-							out.print(sp.getScore() + "<br>");
+							score.add(sp);
 						} else {
 							absent.add(sp);
 						}
 					}
-
-					if (!absent.isEmpty()) {
-						out.print("<br>注意！您有以下" + absent.size() + "场测验未参加：<br>");
-						for (ScoresPO ab : absent) {
-							out.print(ab.getCourse() + "<br>");
-						}
-					}
-
-					out.println("<html>");
-					out.println("<head><title>CheckTest</title></head>");
-					out.println("<body>");
-					out.println("<br><form method='get' action='/J2EE-Lab/Logout'>");
-					out.println("<input type='submit' value='注销'></form>");
-					out.println("</body></html>");
+					
+					ScoreListBean listBean = new ScoreListBean();
+					listBean.setScoreList(score);
+					listBean.setAbsentList(absent);
+					
+					HttpSession session = request.getSession(true);
+					session.setAttribute("listBean", listBean);
+					
+					response.sendRedirect("/J2EE-Lab/Pages/CheckResult.jsp");
 				}
 
 			} else {
