@@ -106,6 +106,7 @@ public class CheckTestServerlet extends HttpServlet {
 					
 					HttpSession session = request.getSession(true);
 					session.setAttribute("listBean", listBean);
+					session.setAttribute("user", userId);
 					
 					response.sendRedirect("/J2EE-Lab/Pages/CheckResult.jsp");
 				}

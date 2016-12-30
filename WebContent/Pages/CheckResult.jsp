@@ -1,3 +1,4 @@
+<%@ taglib prefix="check" uri="/WEB-INF/tlds/checkLogin.tld"%>
 <%@page import="edu.nju.models.ScoresPO"%>
 <%@ page language="java" import="java.util.*"
 	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -8,9 +9,7 @@
 <title>CheckResult</title>
 
 <style>
-
-div, 
-form {
+div, form {
 	margin-left: 40px;
 	margin-bottom: 10px;
 }
@@ -26,6 +25,8 @@ form {
 
 </head>
 <body>
+
+	<check:checkLogin req="<%=request%>" resp="<%=response%>"/>
 
 	<%
 		ServletContext Context = getServletContext();

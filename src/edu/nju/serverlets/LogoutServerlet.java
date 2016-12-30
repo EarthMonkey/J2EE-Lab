@@ -40,7 +40,7 @@ public class LogoutServerlet extends HttpServlet {
 		Context.setAttribute("onlineCount", onlineCount);
 		Context.setAttribute("visitorCount", visitorCount);
 
-		request.getSession().setAttribute("listBean", null);;
+		request.getSession().setAttribute("user", null);
 		
 		response.sendRedirect("/J2EE-Lab/Pages/Login.jsp");
 	}
