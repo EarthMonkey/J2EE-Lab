@@ -26,7 +26,7 @@ div, form {
 </head>
 <body>
 
-	<check:checkLogin req="<%=request%>" resp="<%=response%>"/>
+	<check:checkLogin req="<%=request%>" resp="<%=response%>" />
 
 	<%
 		ServletContext Context = getServletContext();
@@ -54,7 +54,7 @@ div, form {
 		for (ScoresPO sp : scoreList) {
 	%>
 
-	<div><%=sp.getCourse()%>：&nbsp;<%=sp.getScore()%></div>
+	<div><%=sp.getCourse_id()%>：&nbsp;<%=sp.getScore()%></div>
 
 	<%
 		}
@@ -70,7 +70,7 @@ div, form {
 		}
 		for (ScoresPO abPo : absentList) {
 	%>
-	<div><%=abPo.getCourse()%></div>
+	<div><%=abPo.getCourse_id()%></div>
 	<%
 		}
 	%>
