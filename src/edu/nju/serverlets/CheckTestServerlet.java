@@ -13,9 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import edu.nju.action.business.ScoreListBean;
-import edu.nju.factory.ServiceFactory;
 import edu.nju.models.ScoresPO;
+import edu.nju.service.CheckScoreService;
 
 /**
  * Servlet implementation class CheckTest
@@ -24,6 +28,9 @@ import edu.nju.models.ScoresPO;
 public class CheckTestServerlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	private static ApplicationContext applicationContext;
+	private static CheckScoreService scoreService;
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -32,6 +39,12 @@ public class CheckTestServerlet extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
+	public  void init() throws ServletException {
+		super.init();
+		applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+		scoreService = (CheckScoreService) applicationContext.getBean("CheckScoreService");
+	}
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -72,7 +85,7 @@ public class CheckTestServerlet extends HttpServlet {
 			Matcher isNum = pattern.matcher(userId);
 
 			if (isNum.matches()) {
-				ArrayList<ScoresPO> scorelist = ServiceFactory.getScoreService().checkScore(Integer.parseInt(userId));
+				ArrayList<ScoresPO> scorelist = scoreService.checkScore(Integer.parseInt(userId));
 
 				if (scorelist.isEmpty()) {
 					response.sendError(HttpServletResponse.SC_NOT_FOUND, "该学号不存在");

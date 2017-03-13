@@ -15,8 +15,11 @@ public class ScoresPO implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	@Id
 	private int student_id;
+	@Id
 	private String course_id;
+	
 	private int score;
 	
 	public ScoresPO() {
@@ -36,7 +39,6 @@ public class ScoresPO implements Serializable{
 		this.score = score;
 	}
 	
-	@Id
 	public int getStudent_id() {
 		return student_id;
 	}

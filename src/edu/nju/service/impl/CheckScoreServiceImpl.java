@@ -8,22 +8,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.nju.factory.DaoFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import edu.nju.dao.ScoreDao;
 import edu.nju.models.ScoresPO;
 import edu.nju.service.CheckScoreService;
 
+@Service
 public class CheckScoreServiceImpl implements CheckScoreService {
 
-	private static CheckScoreService scoreService = new CheckScoreServiceImpl();
-
-	public static CheckScoreService getInstance() {
-		return scoreService;
-	}
-	
+	@Autowired
+	private ScoreDao scoreDao;
 	
 	@Override
 	public ArrayList<ScoresPO> checkScore(int id) {
-		return DaoFactory.getScoreDao().find(id);
+		return scoreDao.find(id);
 	}
 
 	@Override
